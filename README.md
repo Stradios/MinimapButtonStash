@@ -1,4 +1,5 @@
 # Minimap Button Stash
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/M8K423K344)
 
 A World of Warcraft **3.3.5a (WotLK, Interface 30300)** addon that collects all the
 round addon buttons around your minimap into **one** minimap button. Click it to get a
