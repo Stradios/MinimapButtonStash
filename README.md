@@ -1,9 +1,9 @@
 # Minimap Button Stash
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/M8K423K344)
 
-A World of Warcraft **3.3.5a (WotLK, Interface 30300)** addon that collects all the
-round addon buttons around your minimap into **one** minimap button. Click it to get a
-simple dropdown list:
+A World of Warcraft addon for **WoW Forever (Interface 16001)** and **3.3.5a (WotLK,
+Interface 30300)** that collects all the round addon buttons around your minimap into
+**one** minimap button. Click it to get a simple dropdown list:
 
 ```
 [icon] Addon name
@@ -83,8 +83,11 @@ in the tooltip, and the setting is saved between sessions.
 
 ## Compatibility
 
-- Built for the **3.3.5a** client (Interface `30300`).
-- Uses only standard 3.3.5 API; no libraries are required.
+- **WoW Forever** client (Interface `16001`). If your client reports a different number,
+  check it with `/dump select(4, GetBuildInfo())` and edit the `## Interface:` line in the
+  `.toc`, or enable "Load out of date AddOns" on the character select screen.
+- **3.3.5a** client (Interface `30300`) still works: change the `.toc` Interface line to `30300`.
+- No libraries are required.
 
 ## Saved variables
 

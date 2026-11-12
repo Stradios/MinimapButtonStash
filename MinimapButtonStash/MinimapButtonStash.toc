@@ -1,8 +1,8 @@
-## Interface: 30300
+## Interface: 16001
 ## Title: Minimap Button Stash
 ## Notes: Collects all addon minimap buttons into a single dropdown list (icon + addon name).
 ## Author: Stradios
-## Version: 1.3
+## Version: 1.4
 ## SavedVariables: MinimapButtonStashDB
 
 MinimapButtonStash.lua

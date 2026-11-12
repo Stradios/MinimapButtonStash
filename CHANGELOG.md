@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4
+- Added support for the WoW Forever client (Interface 16001); still loads on 3.3.5a.
+- Dropdown uses `BackdropTemplate` where the client requires it (fixes `SetBackdrop`
+  errors on newer clients).
+- `math.atan2` fallback for dragging the launcher on newer Lua builds.
+- Icon scan also handles texture file IDs (numbers) on newer clients.
+
 ## 1.3
 - Ctrl + Alt + mouse wheel over the launcher changes its opacity; hovering restores full
   opacity unless Ctrl + Alt is held. Opacity is saved.

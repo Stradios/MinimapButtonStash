@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------
--- Minimap Button Stash  (WoW 3.3.5 / Interface 30300)
+-- Minimap Button Stash  (WoW Forever / Interface 16001; also 3.3.5 / 30300)
 -- Collects addon minimap buttons into one dropdown:
 --   [icon] Addon name
 -- Slash: /mbs  (rescan | show | hide | reset)
@@ -31,6 +31,13 @@ local EXCLUDE = {
 }
 
 local function Lower(s) return s and string.lower(s) or "" end
+
+-- math.atan2 was dropped on newer Lua builds (math.atan takes two args there)
+local atan2 = math.atan2 or math.atan
+
+-- Newer clients need the BackdropTemplate mixin for SetBackdrop; older ones
+-- (3.3.5) have no such template, so pass nil there.
+local BACKDROP_TEMPLATE = BackdropTemplateMixin and "BackdropTemplate" or nil
 
 ----------------------------------------------------------------------
 -- Helpers: name + icon extraction
@@ -72,6 +79,7 @@ local function GetIcon(f)
     end
     -- scan regions
     local regions = { f:GetRegions() }
+    local idFallback, idFallbackTC
     for _, r in ipairs(regions) do
         if r.GetObjectType and r:GetObjectType() == "Texture" then
             local t = r:GetTexture()
@@ -82,9 +90,15 @@ local function GetIcon(f)
                    and not lt:find("overlay") then
                     return t, { r:GetTexCoord() }
                 end
+            elseif type(t) == "number" and not idFallback
+                   and r.GetDrawLayer and r:GetDrawLayer() == "ARTWORK" then
+                -- newer clients return texture file IDs instead of paths;
+                -- we can't filter those by name, so only keep an ARTWORK one
+                idFallback, idFallbackTC = t, { r:GetTexCoord() }
             end
         end
     end
+    if idFallback then return idFallback, idFallbackTC end
     local nt = f.GetNormalTexture and f:GetNormalTexture()
     if nt and nt:GetTexture() then return nt:GetTexture() end
     return "Interface\\Icons\\INV_Misc_QuestionMark"
@@ -338,7 +352,7 @@ local function ShowLauncherTooltip(self)
 end
 
 local function CreateUI()
-    menu = CreateFrame("Frame", "MinimapButtonStashMenu", UIParent)
+    menu = CreateFrame("Frame", "MinimapButtonStashMenu", UIParent, BACKDROP_TEMPLATE)
     menu:SetFrameStrata("DIALOG")
     menu:SetClampedToScreen(true)
     menu:SetBackdrop({
@@ -414,7 +428,7 @@ local function CreateUI()
             local px, py = GetCursorPosition()
             local s = Minimap:GetEffectiveScale()
             px, py = px / s, py / s
-            DB.angle = math.deg(math.atan2(py - my, px - mx))
+            DB.angle = math.deg(atan2(py - my, px - mx))
             UpdateLauncherPos()
         end)
     end)
